@@ -1,0 +1,10 @@
+{
+  "name": "mensapp-darmstadt-backend",
+  "version": "0.0.1",
+  "description": "Backend loading menu from studierendenwerkdarmstadt",
+  "main": "index.js",
+  "scripts": {
+  },
+  "author": "philip.schmoekel@googlemail.com",
+  "license": "MIT"
+}
