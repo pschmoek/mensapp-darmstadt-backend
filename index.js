@@ -8,9 +8,8 @@ server.connection({ port: 3000, host: 'localhost' });
 server.route({
   method: 'GET',
   path: '/menus',
-  handler: async function (request, reply) {
-    const menusFromSite = await menus.readFromSite();
-    reply(menusFromSite);
+  handler: function (request, reply) {
+    reply(menus.readFromSite());
   }
 })
 
