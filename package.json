@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "description": "Backend loading menu from studierendenwerkdarmstadt",
   "main": "index.js",
-  "scripts": {
-  },
-  "author": "philip.schmoekel@googlemail.com",
-  "license": "MIT"
+  "scripts": {},
+  "author": "Philip Schmökel <philip.schmoekel@googlemail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "hapi": "^16.4.3"
+  }
 }

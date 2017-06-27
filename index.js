@@ -1,28 +1,24 @@
-const readSite = require('./read-site');
-const url = 'http://studierendenwerkdarmstadt.de/hochschulgastronomie/speisekarten/stadtmitte/';
+const Hapi = require('hapi');
 
-readSite(url).then(html => {
-  const result = html.match(/<section class="fmc-day.*">([\s\S]*?)<\/section>/g)
-    .map(dayHtml => {
-      const headParsed = dayHtml
-        .match(/class="fmc-head">([\s\S^]*?)<span class="light">([\s\S]*?)<\/span>/);
-      const itemsParsed = dayHtml
-        .match(/ul class="fmc-items">([\s\S]*?)<\/ul>/)[1]
-        .match(/<li class="fmc-item".*?>([\s\S]*?)<\/li>/g)
-        .map(itemParsed => {
-          return {
-            title: (itemParsed.match(/span class="fmc-item-title">([\s\S]*?)<\/span>/)[1]+'').trim().replace(/\s+/g, ' '),
-            location: (itemParsed.match(/span class="fmc-item-location">([\s\S]*?)<\/span>/)[1]+'').trim().replace(/\s+/g, ' '),
-            price: (itemParsed.match(/span class="fmc-item-price">([\s\S]*?)<\/span>/)[1]+'').trim().replace(/\s+/g, ' ')
-          }
-        });
+const menus = require('./model/menus');
 
-      return {
-        day: (headParsed[1]+'').trim().replace(/\s+/g, ' '),
-        date: (headParsed[2]+'').trim().replace(/\s+/g, ' '),
-        items: itemsParsed
-      };
-    });
+const server = new Hapi.Server();
+server.connection({ port: 3000, host: 'localhost' });
 
-  console.log(result);
+server.route({
+  method: 'GET',
+  path: '/menus',
+  handler: async function (request, reply) {
+    const menusFromSite = await menus.readFromSite();
+    reply(menusFromSite);
+  }
+})
+
+server.start((err) => {
+
+  if (err) {
+    throw err;
+  }
+  
+  console.log(`Server running at: ${server.info.uri}`);
 });
