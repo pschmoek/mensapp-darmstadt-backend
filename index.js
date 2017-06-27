@@ -11,7 +11,7 @@ server.route({
   handler: function (request, reply) {
     reply(menus.readFromSite());
   }
-})
+});
 
 server.start((err) => {
 
