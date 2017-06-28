@@ -3,7 +3,7 @@ const Hapi = require('hapi');
 const menus = require('./model/menus');
 
 const server = new Hapi.Server();
-server.connection({ port: 3000, host: 'localhost' });
+server.connection({ port: 3000 });
 
 server.route({
   method: 'GET',
