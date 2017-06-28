@@ -1,6 +1,6 @@
 const http = require('http');
 
-module.exports = async (url) => {
+module.exports = function (url) {
   return new Promise((resolve, reject) => {
     http.get(url, res => {
       let result = '';

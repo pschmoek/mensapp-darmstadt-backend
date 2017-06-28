@@ -2,7 +2,8 @@ const Hapi = require('hapi');
 
 const menus = require('./model/menus');
 
-const server = new Hapi.Server(+process.env.PORT || 3000, '0.0.0.0');
+const server = new Hapi.Server();
+server.connection({ port: process.env.PORT || 3000 });
 
 server.route({
   method: 'GET',

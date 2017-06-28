@@ -1,7 +1,7 @@
 const parseSite = require('./parse-site');
 
 module.exports = {
-  async readFromSite() {
+  readFromSite() {
     const urlMenuPairs = [
       {
         url: 'http://studierendenwerkdarmstadt.de/hochschulgastronomie/speisekarten/stadtmitte/',
