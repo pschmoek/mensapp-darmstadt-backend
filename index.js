@@ -1,6 +1,6 @@
 const Hapi = require('hapi');
 
-const menus = require('./model/menus');
+const menus = require('./core/read-menus');
 
 const server = new Hapi.Server();
 server.connection({ port: process.env.PORT || 3000 });

@@ -1,4 +1,4 @@
-const readSite = require('./read-site');
+const readSite = require('../../infra/read-site');
 const parseText = require('./parse-text');
 
 module.exports = function (menuConfig) {
