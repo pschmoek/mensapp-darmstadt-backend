@@ -15,7 +15,7 @@ function addOrGet(map, key, value) {
 }
 
 module.exports = {
-  async save(menus, startMoment) {
+  async save(menus, startMoment, endMoment) {
     const distinctMensas = new Map();
     const distinctMeals = new Map();
     const menuItems = [];
@@ -44,7 +44,6 @@ module.exports = {
 
     await mealDb.sync(Array.from(distinctMeals.values()));
     await mensaDb.sync(Array.from(distinctMensas.values()));
-    const endMoment = new Date().toISOString();
     const importEntity = await importDb.createImport(startMoment, endMoment);
     await menuItemDb.addAll(menuItems, importEntity);
 

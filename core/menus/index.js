@@ -1,26 +1,25 @@
-const parseSite = require('./parse-site');
+const moment = require('moment');
 
-const urlMenuPairs = require('./url-menu-pairs')
-const menuDb = require('../../infra/db/menus');
 const mensaDb = require('../../infra/db/mensa');
 const reportingDb = require('../../infra/db/reporting');
+const studierendenwerkAdapter = require('./studierendenwerk-adapter');
 
 module.exports = {
 
   async importMenus() {
-    const startMoment = new Date().toISOString();
-    const menusFromSite = await Promise.all(urlMenuPairs.map(p => parseSite(p)));
-    const summary = await menuDb.save(menusFromSite, startMoment);
-
-    return summary;
+    return studierendenwerkAdapter.readMenus();
   },
 
-  async getAllMensas() {
-    return await mensaDb.getAll();
+  async getMensas() {
+    const mensas = await mensaDb.getAll();
+
+    return mensas;
   },
 
-  async getMensasMenuItemsOn(mensaId, date) {
-    return reportingDb.getMensaWithMenusOnDate(mensaId, date);
+  async getMenu(mensaId, date) {
+    date = date || moment().format('DD.MM.YYYY');
+
+    return reportingDb.getMenusOnDate(date, mensaId);
   }
 
 }

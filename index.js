@@ -9,17 +9,25 @@ server.route({
   method: 'GET',
   path: '/mensas',
   handler: function (request, reply) {
-    reply(menus.getAllMensas());
+    reply(menus.getMensas());
   }
 });
 
 server.route({
   method: 'GET',
-  path: '/mensas/{mensaId}/menuItems/{date}',
+  path: '/mensas/{mensaId}/menu/{date}',
   handler: function (request, reply) {
-    reply(menus.getMensasMenuItemsOn(request.params.mensaId, request.params.date))
+    reply(menus.getMenu(request.params.mensaId, request.params.date))
   }
 });
+
+server.route({
+  method: 'GET',
+  path: '/mensas/{mensaId}/menu',
+  handler: function (request, reply) {
+    reply(menus.getMenu(request.params.mensaId));
+  }
+})
 
 server.route({
   method: 'POST',
