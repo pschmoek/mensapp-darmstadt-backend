@@ -15,7 +15,7 @@ server.route({
 
 server.route({
   method: 'GET',
-  path: '/mensas/{mensaId}/menu/{date}',
+  path: '/mensas/{mensaId}/menus/{date}',
   handler: function (request, reply) {
     reply(menus.getMenu(request.params.mensaId, request.params.date))
   }
@@ -23,7 +23,7 @@ server.route({
 
 server.route({
   method: 'GET',
-  path: '/mensas/{mensaId}/menu',
+  path: '/mensas/{mensaId}/menus',
   handler: function (request, reply) {
     reply(menus.getMenu(request.params.mensaId));
   }
