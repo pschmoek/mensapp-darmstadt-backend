@@ -1,32 +1,53 @@
-const mensa = require('./mensa');
-const item = require('./item');
+const mensaDb = require('./mensa');
+const mealDb = require('./meal');
+const importDb = require('./import');
+const menuItemDb = require('./menu-item');
+
+function addOrGet(map, key, value) {
+  const val = map.get(key);
+  if (val) {
+    return val;
+  }
+
+  map.set(key, value);
+
+  return value;
+}
 
 module.exports = {
-  async save(menus) {
+  async save(menus, startMoment) {
     const distinctMensas = new Map();
-    const distinctItems = new Map();
+    const distinctMeals = new Map();
+    const menuItems = [];
 
     for (const menu of menus) {
       for (const day of menu.days) {
         for (const item  of day.items) {
-          distinctMensas.set(menu.name+item.location, {
+          let mensa = addOrGet(distinctMensas, menu.name+item.location, {
             location: menu.name,
             subLocation: item.location
           });
-          distinctItems.set(item.title+item.price, {
+
+          let meal = addOrGet(distinctMeals, item.title, {
             title: item.title,
-            price: item.price.split(' ')[0].replace(',', '.')
+          });
+
+          menuItems.push({
+            date: day.date,
+            price: item.price.split(' ')[0].replace(',', '.'),
+            meal: meal,
+            mensa: mensa
           });
         }
       }
     }
 
-    const items = Array.from(distinctItems.values());
-    const mensas = Array.from(distinctMensas.values());
+    await mealDb.sync(Array.from(distinctMeals.values()));
+    await mensaDb.sync(Array.from(distinctMensas.values()));
+    const endMoment = new Date().toISOString();
+    const importEntity = await importDb.createImport(startMoment, endMoment)
+    await menuItemDb.addAll(menuItems, importEntity);
 
-    return {
-      mensas: await mensa.addOrGetAll(mensas),
-      items: await item.addOrGetAll(items)
-    };
+    return {success:'all fine'};
   }
 }
