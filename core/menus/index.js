@@ -24,6 +24,9 @@ module.exports = {
 
   async getMeals(date) {
     const meals = await reportingDb.getMeals(date);
+    if (!date) {
+      return meals;
+    }
 
     const result = new Map();
     for (const meal of meals) {
