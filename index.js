@@ -13,11 +13,10 @@ server.route({
   }
 });
 
-server.start((err) => {
+server.on('request-error', (request, err) => {
+  console.log(err);
+});
 
-  if (err) {
-    throw err;
-  }
-  
+server.start(() => {
   console.log(`Server running at: ${server.info.uri}`);
 });
