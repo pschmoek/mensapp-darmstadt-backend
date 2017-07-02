@@ -19,6 +19,26 @@ module.exports = {
         
       })
       .select('*');
+  },
+
+  async getMeals(date) {
+    let query = pg('meal');
+    if (!date) {
+      return query.select('meal.id', 'meal.title');
+    }
+    
+    return query
+      .leftJoin('menu_item', 'meal.id', 'menu_item.meal_id')
+      .leftJoin('mensa', 'mensa.id', 'menu_item.mensa_id')
+      .where(function() {
+        this.where('import_id', pg('menu_item').where({date:date}).max('import_id'))
+            .andWhere('menu_item.date', date);
+      })
+      .select('meal.id',
+              'meal.title',
+              'menu_item.price',
+              'mensa.location',
+              'mensa.sub_location');
   }
 
 }

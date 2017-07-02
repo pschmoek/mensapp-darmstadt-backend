@@ -27,7 +27,23 @@ server.route({
   handler: function (request, reply) {
     reply(menus.getMenu(request.params.mensaId));
   }
-})
+});
+
+server.route({
+  method: 'GET',
+  path: '/meals',
+  handler: function (request, reply) {
+    reply(menus.getMeals());
+  }
+});
+
+server.route({
+  method: 'GET',
+  path: '/meals/{date}',
+  handler: function(request, reply) {
+    reply(menus.getMeals(request.params.date));
+  }
+});
 
 server.route({
   method: 'POST',
