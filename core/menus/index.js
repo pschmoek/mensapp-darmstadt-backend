@@ -1,11 +1,12 @@
 const parseSite = require('./parse-site');
 
 const urlMenuPairs = require('./url-menu-pairs')
-const menuDb = require('../../infra/db/menus');
+const db = require('../../infra/db/menus');
 
 module.exports = {
-  readFromSite() {
-    return Promise.all(urlMenuPairs.map(p => parseSite(p)))
-      .then(menus => menuDb.save(menus));
+  async readFromSite() {
+    const menusFromSite = await Promise.all(urlMenuPairs.map(p => parseSite(p)));
+
+    return db.save(menusFromSite);
   }
 }

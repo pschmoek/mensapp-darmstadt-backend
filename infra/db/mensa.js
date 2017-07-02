@@ -1,23 +1,36 @@
 const pg = require('./knex');
 
 module.exports = {
-  saveAll(mensas) {
-    return Promise.all(mensas.map(m => this.save(m)));
-  },
+  async addOrGetAll(mensas) {
+    const existingMensasInDb = await this.getAll();
+    const existingMensas = [];
+    const newMensas = [];
 
-  save(mensa) {
-    return this.find(mensa.location, mensa.subLocation).then(fromDb => {
-      if (fromDb && fromDb.length > 0) {
-        return Promise.resolve(fromDb[0]);
+    for (const mensa of mensas) {
+      const existingInDb = existingMensasInDb
+        .find(m => m.location === mensa.location 
+                   && m.subLocation === mensa.subLocation);
+      if (existingInDb) {
+        existingMensas.push(existingInDb);
+      } else {
+        newMensas.push(mensa);
       }
+    }
 
-      return pg('mensa').insert(mensa).returning('*');
-    });
+    const addedMensas = await this.addAll(newMensas);
+
+    return existingMensas.concat(addedMensas);
   },
 
-  find(location, subLocation) {
-    return pg('mensa')
-      .where({location: location, subLocation: subLocation})
-      .select('*');
+  async addAll(mensas) {
+    if (mensas.length < 1) {
+      return [];
+    }
+
+    return pg('mensa').insert(mensas).returning('*');
+  },
+
+  async getAll() {
+    return pg('mensa').select('*');
   }
 }
