@@ -45,9 +45,14 @@ module.exports = {
     await mealDb.sync(Array.from(distinctMeals.values()));
     await mensaDb.sync(Array.from(distinctMensas.values()));
     const endMoment = new Date().toISOString();
-    const importEntity = await importDb.createImport(startMoment, endMoment)
+    const importEntity = await importDb.createImport(startMoment, endMoment);
     await menuItemDb.addAll(menuItems, importEntity);
 
-    return {success:'all fine'};
+    return {
+      import: importEntity,
+      mensas: distinctMensas.size,
+      meals: distinctMeals.size,
+      menuItems: menuItems.length
+    }
   }
 }

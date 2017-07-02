@@ -10,7 +10,9 @@ module.exports = {
   },
 
   async add(item) {
-    return pg('meal').insert(item).returning('id');
+    const created = await pg('meal').insert(item).returning('id');
+
+    return created[0];
   },
 
   async getAll() {
