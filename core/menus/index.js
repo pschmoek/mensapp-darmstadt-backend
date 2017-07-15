@@ -35,6 +35,7 @@ module.exports = {
         group = {
           id: meal.id,
           title: meal.title,
+          lastDate: meal.last_date,
           locations: []
         };
         result.set(meal.id, group);
