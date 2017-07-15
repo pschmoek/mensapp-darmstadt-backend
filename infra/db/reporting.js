@@ -38,7 +38,8 @@ module.exports = {
               'meal.title',
               'menu_item.price',
               'mensa.location',
-              'mensa.sub_location');
+              'mensa.sub_location',
+              'mensa.id as mensa_id');
   }
 
 }

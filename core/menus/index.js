@@ -43,7 +43,8 @@ module.exports = {
       group.locations.push({
         location: meal.location,
         subLocation: meal.sub_location,
-        price: meal.price
+        price: meal.price,
+        mensaId: meal.mensa_id
       });
     }
 
