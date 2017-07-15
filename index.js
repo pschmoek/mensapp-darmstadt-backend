@@ -7,7 +7,7 @@ server.connection({ port: process.env.PORT || 3000 });
 
 server.route({
   method: 'GET',
-  path: '/api/mensas',
+  path: '/mensas',
   handler: function (request, reply) {
     reply(menus.getMensas());
   }
@@ -15,7 +15,7 @@ server.route({
 
 server.route({
   method: 'GET',
-  path: '/api/mensas/{mensaId}/menus/{date}',
+  path: '/mensas/{mensaId}/menus/{date}',
   handler: function (request, reply) {
     reply(menus.getMenu(request.params.mensaId, request.params.date))
   }
@@ -23,7 +23,7 @@ server.route({
 
 server.route({
   method: 'GET',
-  path: '/api/mensas/{mensaId}/menus',
+  path: '/mensas/{mensaId}/menus',
   handler: function (request, reply) {
     reply(menus.getMenu(request.params.mensaId));
   }
@@ -31,7 +31,7 @@ server.route({
 
 server.route({
   method: 'GET',
-  path: '/api/meals',
+  path: '/meals',
   handler: function (request, reply) {
     reply(menus.getMeals());
   }
@@ -39,7 +39,7 @@ server.route({
 
 server.route({
   method: 'GET',
-  path: '/api/meals/{date}',
+  path: '/meals/{date}',
   handler: function(request, reply) {
     reply(menus.getMeals(request.params.date));
   }
@@ -47,7 +47,7 @@ server.route({
 
 server.route({
   method: 'POST',
-  path: '/api/imports',
+  path: '/imports',
   handler: function (request, reply) {
     reply(menus.importMenus());
   }
